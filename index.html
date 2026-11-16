@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>آسمان | تحلیل هوش مصنوعی ارز دیجیتال</title>
+  <meta name="description" content="تحلیل تکنیکال خودکار، چارت زنده فیوچرس، اسکنرهای بازار و هوش مصنوعی برای معامله ارز دیجیتال" />
+  <meta name="keywords" content="آسمان, ارز دیجیتال, تحلیل تکنیکال, بیت کوین, اتریوم, چارت زنده, هوش مصنوعی" />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="css/style.css" />
+  <script src="https://unpkg.com/lightweight-charts@4.2.2/dist/lightweight-charts.standalone.production.js"></script>
+</head>
+<body>
+
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="container topbar-inner">
+      <div class="logo">آسمان <span class="badge">تحلیل هوش مصنوعی</span></div>
+      <div class="topbar-right">
+        <div class="exchange-select">
+          <label>صرافی:</label>
+          <select id="exchangeSelect">
+            <option value="binance">بایننس (Binance)</option>
+            <option value="bybit">بایت‌بیت (Bybit)</option>
+            <option value="okx">او‌کی‌ایکس (OKX)</option>
+            <option value="kucoin">کوکوین (KuCoin)</option>
+            <option value="bitget">بیت-get (Bitget)</option>
+            <option value="gateio">گیت‌ا.io (Gate.io)</option>
+            <option value="mexc">مکس‌ای (MEXC)</option>
+          </select>
+        </div>
+        <div class="symbol-select">
+          <label>توکن:</label>
+          <select id="symbolSelect">
+            <option value="bitcoin">BTC / USDT</option>
+            <option value="ethereum">ETH / USDT</option>
+            <option value="solana">SOL / USDT</option>
+            <option value="ripple">XRP / USDT</option>
+            <option value="cardano">ADA / USDT</option>
+            <option value="dogecoin">DOGE / USDT</option>
+          </select>
+        </div>
+        <div class="timeframe-select">
+          <label>تایم‌فریم:</label>
+          <select id="timeframeSelect">
+            <option value="15">۱۵ دقیقه</option>
+            <option value="60">۱ ساعته</option>
+            <option value="240">۴ ساعته</option>
+            <option value="D">روزه‌ای</option>
+          </select>
+        </div>
+        <button class="btn btn-ai" id="aiToggle" title="آسمان هوش مصنوعی (Ctrl K)">Ctrl K</button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Layout -->
+  <div class="container main">
+    
+    <!-- Left: Chart -->
+    <div class="chart-panel">
+      <div class="chart-header">
+        <h2 id="chartTitle">BTC / USDT · ۴ ساعته</h2>
+        <div class="price-info">
+          <span class="price" id="currentPrice">لود شدن...</span>
+          <span class="change change-neutral" id="priceChange">--%</span>
+        </div>
+      </div>
+      <div id="chartContainer" style="height: 520px; width: 100%;"></div>
+      
+      <!-- Chart Tools -->
+      <div class="chart-tools">
+        <button class="tool-btn active" data-tool="structure">ساختار بازار</button>
+        <button class="tool-btn" data-tool="zones">زون‌های عرضه و تقاضا</button>
+        <button class="tool-btn" data-tool="orderblock">أوردر بلاک</button>
+        <button class="tool-btn" data-tool="fvg">FVG</button>
+        <button class="tool-btn" data-tool="liquidation">نقشه لیکوئیدیشن</button>
+        <button class="tool-btn" data-tool="whales">موقف‌های نهنگ‌ها</button>
+      </div>
+
+      <!-- Analysis Cards -->
+      <div class="analysis-grid">
+        <div class="card analysis-card">
+          <div class="card-header">ساختار بازار</div>
+          <div class="card-body" id="analysisStructure">در حال دریافت داده...</div>
+        </div>
+        <div class="card analysis-card">
+          <div class="card-header">زون عرضه و تقاضا</div>
+          <div class="card-body" id="analysisZones">در حال دریافت داده...</div>
+        </div>
+        <div class="card analysis-card">
+          <div class="card-header">أوردر بلاک</div>
+          <div class="card-body" id="analysisOrderBlock">در حال دریافت داده...</div>
+        </div>
+        <div class="card analysis-card">
+          <div class="card-header">فشار خرید و فروش</div>
+          <div class="card-body" id="analysisPressure">در حال دریافت داده...</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: Sidebar -->
+    <div class="sidebar">
+      
+      <!-- AI Chat -->
+      <div class="card ai-chat-card">
+        <div class="card-header ai-header">
+          <span>آسمان هوش مصنوعی</span>
+          <span class="ai-status">آنلاین</span>
+        </div>
+        <div class="chat-messages" id="chatMessages">
+          <div class="message ai">
+            سلام! من آسمان هستم، تحلیل‌گر هوش مصنوعی ارز دیجیتال. می‌تونی بگی: «خط روند و زون‌های تقاضای اتریوم ۴ ساعته رو بکش» یا هر کوین دیگه‌ای رو بفرستی تا چارت و تحلیلش رو بگیرم.
+          </div>
+        </div>
+        <div class="chat-input">
+          <input type="text" id="aiInput" placeholder="بگذار چارت رو ببینیم..." />
+          <button id="aiSend">ارسال</button>
+        </div>
+        <div class="ai-examples">
+          نمونه‌ها:
+          <span class="example-chip">تicken اتریوم ۴ ساعته</span>
+          <span class="example-chip">سونولانا شکست خط روند</span>
+          <span class="example-chip">فاندینگ بیت‌کوین</span>
+        </div>
+      </div>
+
+      <!-- Scanner -->
+      <div class="card scanner-card">
+        <div class="card-header">اسکنر بازار</div>
+        <div class="scanner-filters">
+          <select id="scannerType">
+            <option>مومنتوم</option>
+            <option>جهش حجم</option>
+            <option>شکست سقف</option>
+            <option>شکست خط روند</option>
+            <option>ز-ons abaste و تقاضا</option>
+            <option>فاندینگ افراطی</option>
+          </select>
+        </div>
+        <div class="scanner-table" id="scannerTable">
+          <table>
+            <thead>
+              <tr><th>نماد</th><th>قیمت</th><th>تغییر ۲۴ساعته</th><th>امتیاز</th></tr>
+            </thead>
+            <tbody id="scannerBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- On-chain / Whales -->
+      <div class="card whale-card">
+        <div class="card-header">داده‌های آنچین (Hyperliquid)</div>
+        <div class="whale-stats" id="whaleStats">
+          <div class="stat">
+            <div class="stat-label">پوشizioni باز</div>
+            <div class="stat-value" id="whaleOpenPositions">--</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">کیف‌پول فعال</div>
+            <div class="stat-value" id="whaleActiveWallets">--</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">حجم لانگ</div>
+            <div class="stat-value" id="whaleLongVolume">--</div>
+          </div>
+          <div class="stat">
+            <div class="stat-label">حجم شورت</div>
+            <div class="stat-value" id="whaleShortVolume">--</div>
+          </div>
+        </div>
+        <p class="api-placeholder" style="font-size:0.7rem;color:#64748b;padding:8px 12px;text-align:center;">داده‌های آنچین پس از اتصال APIHyperliquid نمایش داده می‌شود.</p>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Bottom: Signals / Opportunities -->
+  <section class="opportunities">
+    <div class="container">
+      <div class="section-header">
+        <h2>فرصت‌های معامله (Signals)</h2>
+        <span class="count" id="oppCount">۰ فرصت فعال</span>
+      </div>
+      <div class="opportunity-table" id="opportunityTable">
+        <table>
+          <thead>
+            <tr>
+              <th>مدل</th><th>نماد</th><th>ورود</th><th>حد ضرر</th><th>هدف ۱</th><th>هدف ۲</th><th>بک‌تست</th><th>وين‌ریت</th>
+            </tr>
+          </thead>
+          <tbody id="opportunityBody"></tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>آسمان · تحلیل خودکار با هوش مصنوعی · برای conjugateンス، در تلگرام: <a href="https://t.me/bityar_ai_bot" target="_blank">@bityar_ai_bot</a></p>
+      <p class="disclaimer">會드ль: ستاپ‌ها ترکیب خودکار نشانه‌های نمودار هستند و توصیه‌ی خرید و فروش نیستند. مدیریت ریسک با خود معامله‌گر است. داده‌های قیمت از منابع رایگان اینترنتی دریافت می‌شود.</p>
+    </div>
+  </footer>
+
+  <script src="js/config.js"></script>
+  <script src="js/api.js"></script>
+  <script src="js/chart.js"></script>
+  <script src="js/ai.js"></script>
+  <script src="js/scanner.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
