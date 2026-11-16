@@ -1,76 +1,92 @@
 # آسمان (Aseman) - تحلیل هوش مصنوعی ارز دیجیتال
 
-یک پلتفرم تحلیل تکنیکال خودکار برای معاملات فیوچرس ارز دیجیتال، ساخته شده با HTML، CSS و جاوااسکریپت خالص.
+سایت سیگنال گیری ارز دیجیتال با بک‌اند Node.js + Express برای استقرار روی رندر (Render).
 
 ## امکانات
 
-- 📊 **چارت زنده کندل‌ستیک** با داده‌های واقعی از Binance (بدون نیاز به API کلید)
-- 💰 **قیمت زنده** از CoinGecko (بدون نیاز به API کلید)
-- 🔍 **اسکنر بازار** با نمادهای Coninex و تغییرات ۲۴ساعته
-- 🤖 **هوش مصنوعی آسمان** - چت هوش مصنوعی برای تحلیل چارت
-- 📈 **ابزارهای تحلیلی**: ساختار بازار، زون عرضه و تقاضا، أوردر بلاک، FVG
-- 🎯 **فرصت‌های معامله** (Signals) با ستاپ، حد ضرر و هدف
-- 🐋 **داده‌های آنچین** (آماده برای اتصال API Hyperliquid)
-- ⚡ **ارسال فوری** (Ctrl K) برای دسترسی سریع به چت AI
-- 📱 **طراحی رسponsive** و RTL (راست‌چین) برای زبان فارسی
+- 📊 چارت زنده کندل‌ستیک (دیتای واقعی از Binance)
+- 💰 قیمت زنده از CoinGecko
+- 🔍 اسکنر بازار با تغییرات ۲۴ساعته
+- 🤖 چت هوش مصنوعی آسمان
+- 📈 ابزارهای تحلیلی: ساختار بازار، زون عرضه و تقاضا، أوردر بلاک، FVG
+- 🎯 فرصت‌های معامله با ستاپ، حد ضرر و هدف
+- 🐋 بخش آماده برای اتصال API Hyperliquid
+- ⚡ دکمه Ctrl K برای چت سریع
+- 📱 طراحی رسponsive و RTL
 
 ## ساختار فایل‌ها
 
 ```
-aseman/
-├── index.html
-├── css/
-│   └── style.css
-├── js/
-│   ├── config.js      # تنظیمات و endpoints API
-│   ├── api.js         # لایه ارتباط با CoinGecko و Binance
-│   ├── chart.js       # ماژول چارت (Lightweight Charts)
-│   ├── ai.js          # چت هوش مصنوعی
-│   ├── scanner.js     # اسکنر بازار و فرصت‌ها
-│   └── app.js         # منطق اصلی برنامه
-└── README.md
+aseman-web/
+├── server.js              # بک‌اند Express
+├── package.json           # وابستگی‌ها
+├── .env.example           # نمونه متغیرهای محیطی
+├── render.yaml            # تنظیمات استقرار رندر
+├── README.md
+└── public/                # فریم‌تند (استاتیک)
+    ├── index.html
+    ├── css/
+    │   └── style.css
+    └── js/
+        ├── config.js
+        ├── api.js         # تماس با بک‌اند (proxy)
+        ├── chart.js
+        ├── ai.js
+        ├── scanner.js
+        └── app.js
 ```
 
-## APIهای استفاده شده (رایگان، بدون کلید)
+## استقرار روی رندر (Render)
 
-1. **CoinGecko API** - قیمت، تغییر ۲۴ساعته، حجم، ارزش بازار
-   - `https://api.coingecko.com/api/v3/simple/price`
-   - `https://api.coingecko.com/api/v3/coins/markets`
+### روش ۱: با render.yaml (ساده ترین)
 
-2. **Binance Public API** - کندل‌های چارت، تیکرهای ۲۴ساعته
-   - `https://api.binance.com/api/v3/klines`
-   - `https://api.binance.com/api/v3/ticker/24hr`
+1. کد را در ریپوزیتوری گیت‌هاب آپلود کنید
+2. به [render.com](https://render.com) بروید
+3. دکمه **New » Web Service** را بزنید
+4. ریپوزیتوری `aseman-web` را انتخاب کنید
+5. تنظیمات به شکل زیر:
+   - **Name:** `aseman`
+   - **Environment:** `Node`
+   - **Branch:** `main`
+   - **Region:** `Frankfurt` (یا نزدیک به شما)
+   - **Build Command:** `npm install`
+   - **Start Command:** `npm start`
+6. دکمه **Create Web Service** را بزنید
 
-## توسعه و اتصال API صرافی
+### روش ۲: تنظیم دستی
 
-برای اتصال به API صرافی شما (بایننس، بایت‌بیت و ...):
+اگر render.yaml کار نکرد، به صورت دستی مقادیر زیر را وارد کنید:
 
-1. در `js/config.js` endpointهای صرافی را اضافه کنید
-2. در `js/api.js` متدهای جدید برای دریافت داده‌های صرافی بنویسید
-3. در `js/app.js` تابع `loadAllData()` را به‌روز کنید
+| فیلد | مقدار |
+|------|-------|
+| Name | `aseman` |
+| Environment | `Node` |
+| Branch | `main` |
+| Build Command | `npm install` |
+| Start Command | `npm start` |
 
-## اجراLOCAL
+## اجرا محلی (Development)
 
 ```bash
-python3 -m http.server 5001 --directory /home/user/aseman
+cd /home/user/aseman-web
+npm install
+npm start
 ```
 
-سایت در `http://localhost:5001` در دسترس می‌باشد.
+سایت در `http://localhost:5000` در دسترس می‌باشد.
 
-## استقرار (Deploy)
+## اتصال API صرافی (بعدی)
 
-سایت کاملاً استاتیک است و می‌توانید روی GitHub Pages، Vercel، Netlify یا هر هاست استاتیکی استقرار دهید.
+هنگامی که کلید API صرافی (بایننس، بایت‌بیت و ...) را دارید:
 
-### GitHub Pages
-1. کد را در یک ریپوزیتوری GitHub Push کنید
-2. در تنظیمات ریپوزیتوری، بخش Pages را فعال کنید
-3. سایت در `https://username.github.io/repo-name/` در دسترس می‌باشد
+1. فایل `.env.example` را کپی کنید و نام آن را `.env` بگذارید
+2- کلیدها را در `.env` وارد کنید
+3- در `server.js` متدهای جدید برای استفاده از API کلید اضافه کنید
 
-## ایenéهاملی
+## مهم
 
-- داده‌های آنچین (نهنگ‌ها، لیکوئیدیشن) نیاز به API کلید Hyperliquid دارند
-- برای معاملات واقعی، API کلید صرافی را در بک‌ند اضافه کنید
-- برای داده‌های تاریخی بیشتر، CoinGecko Pro یا Binance API با کلید استفاده کنید
+- این سایت **وب سرویس (Web Service)** است و برای رندر باید از نوع **Web Service / Node** انتخاب شود
+- اگر **Static Site** انتخاب کنید، بک‌اند اجرا نمی‌شود و APIها کار نمی‌کنند
 
 ---
 
